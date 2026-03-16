@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 
-import httpx
+
 
 app = FastAPI()
 
@@ -11,5 +11,6 @@ async def hello():
     return {"Hello": "World!"}
 
 @app.get("/{id}")
-async def get_unicorn(id: str):
-   return False
+async def get_unicorn(id: str, header: str = Header(None)):
+
+    return {"id": id}
