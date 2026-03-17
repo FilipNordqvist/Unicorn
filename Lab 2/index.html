@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unicorns</title>
+<style>
+    th,
+    td {
+        border: 1px solid black;
+        padding: 40px;
+        text-align: left;
+        vertical-align: top;
+        width: 1200px;
+
+    }
+    table {
+        border-spacing: 10px;
+    }
+</style>
+</head>
+<body>
+    <h1>Unicorns</h1>
+    <table>
+        <tr>
+        <th>
+            <ul>
+                <li><a href="">Enhörning 1</a></li>
+                <li><a href="">Enhörning 2</a></li>
+                <li><a href="">Enhörning 3</a></li>
+            
+            </ul>
+            </th>
+        <th id="unicornName">Här lägger vi info om en stund</th>
+        <span id="unicornImage"></span>
+        <p id="unicornInfo"></p>
+        <p id="unicornSighting"></p>
+        </tr>
+    </table>
+
+    <!-- Börja med STEG 6-->
+    <script>
+       async function listUnicorns(){
+        try{
+            const response = await fetch("http://unicorns.idioti.se/", {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+
+            const unicorns = await response.json();
+
+            unicorns.forEach(unicorn => {
+                console.log("ID: " + unicorn.id + " Namn: " + unicorn.name + " Detaljer: " + unicorn.details)
+            });
+        } catch (error){
+            console.error("Hoppsan, något gick fel:", error);
+        }
+        
+       }
+
+    listUnicorns();
+    </script>
+
+</body>
+
+</html>
