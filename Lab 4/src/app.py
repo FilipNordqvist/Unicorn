@@ -12,5 +12,7 @@ async def hello():
 
 @app.get("/{id}")
 async def get_unicorn(id: str, header: str = Header(None)):
+    
+    data = response.json()
 
     return {"id": id}
