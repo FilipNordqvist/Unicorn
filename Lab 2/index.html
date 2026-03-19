@@ -1,67 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Unicorns</title>
-<style>
-    th,
-    td {
-        border: 1px solid black;
-        padding: 40px;
-        text-align: left;
-        vertical-align: top;
-        width: 1200px;
+    <style>
+        th,
+        td {
+            border: 1px solid black;
+            padding: 40px;
+            text-align: left;
+            vertical-align: top;
+            width: 1200px;
 
-    }
-    table {
-        border-spacing: 10px;
-    }
-</style>
+        }
+
+        table {
+            border-spacing: 10px;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Unicorns</h1>
     <table>
         <tr>
-        <th>
-            <ul>
-                <li><a href="">Enhörning 1</a></li>
-                <li><a href="">Enhörning 2</a></li>
-                <li><a href="">Enhörning 3</a></li>
-            
-            </ul>
+            <th>
+                <ul id="list">
+                    <li><a href="">Enhörning 1</a></li>
+                    <li><a href="">Enhörning 2</a></li>
+                    <li><a href="">Enhörning 3</a></li>
+
+                </ul>
             </th>
-        <th id="unicornName">Här lägger vi info om en stund</th>
-        <span id="unicornImage"></span>
-        <p id="unicornInfo"></p>
-        <p id="unicornSighting"></p>
+            <th id="unicornName">Här lägger vi info om en stund</th>
+            <span id="unicornImage"></span>
+            <p id="unicornInfo"></p>
+            <p id="unicornSighting"></p>
         </tr>
     </table>
 
     <!-- Börja med STEG 6-->
     <script>
-       async function listUnicorns(){
-        try{
-            const response = await fetch("http://unicorns.idioti.se/", {
-                method: 'GET',
-                headers: { 'Accept': 'application/json' }
-            });
+        async function listUnicorns() {
+            try {
+                const response = await fetch("http://unicorns.idioti.se/", {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
 
-            const unicorns = await response.json();
+                const unicorns = await response.json();
+                const ul = document.getElementById("list");
 
-            unicorns.forEach(unicorn => {
-                console.log("ID: " + unicorn.id + " Namn: " + unicorn.name + " Detaljer: " + unicorn.details)
-            });
-        } catch (error){
-            console.error("Hoppsan, något gick fel:", error);
+                //Tar bort de enhörningar som finns innan loopen startar
+                ul.replaceChildren();
+
+                //Itererar över datan som hämtas
+                unicorns.forEach(unicorn => {
+                    //Skapar ett li-element
+                    const li = document.createElement("li");
+                    //Sätter namn attribut
+                    li.setAttribute("name", "unicorn_" + unicorn.id);
+
+                    //Sätter enhörningens id som värde
+                    li.value = unicorn.id;
+
+                    //Sätter enhörningsnamn till elementet
+                    li.textContent = unicorn.name;
+
+                    //Lägger till elementet i listan
+                    ul.appendChild(li);
+
+                    console.log("ID: " + unicorn.id + " Namn: " + unicorn.name + " Detaljer: " + unicorn.details)
+                });
+            } catch (error) {
+                console.error("Hoppsan, något gick fel:", error);
+            }
+
         }
-        
-       }
 
-       async function fetchThenDisplayUnicorn(event){
-        
-       }
+        async function fetchThenDisplayUnicorn(event) {
 
-    listUnicorns();
+        }
+
+        listUnicorns();
     </script>
 
 </body>
