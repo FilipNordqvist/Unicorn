@@ -18,6 +18,14 @@
         table {
             border-spacing: 10px;
         }
+
+        li {
+            cursor: pointer;
+        }
+
+        #list {
+            width: 300px;
+        }
     </style>
 </head>
 
@@ -40,8 +48,8 @@
         </tr>
     </table>
 
-    <!-- Börja med STEG 6-->
     <script>
+
         async function listUnicorns() {
             try {
                 const response = await fetch("http://unicorns.idioti.se/", {
@@ -68,22 +76,57 @@
                     //Sätter enhörningsnamn till elementet
                     li.textContent = unicorn.name;
 
+                    li.onclick = () => fetchThenDisplayUnicorn(unicorn.id);
+
                     //Lägger till elementet i listan
                     ul.appendChild(li);
 
-                    console.log("ID: " + unicorn.id + " Namn: " + unicorn.name + " Detaljer: " + unicorn.details)
+                    //console.log("ID: " + unicorn.id + " Namn: " + unicorn.name + " Detaljer: " + unicorn.details)
                 });
             } catch (error) {
                 console.error("Hoppsan, något gick fel:", error);
             }
 
         }
-
+        
         async function fetchThenDisplayUnicorn(event) {
+            try {
+                const response = await fetch("http://unicorns.idioti.se/"+event, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
 
+                const unicorn = await response.json();
+                displayUnicorn(unicorn);
+
+            }catch(error){
+                console.log("Kunde inte visa enhörningsinformation", error)
+            }
+
+            console.log(event)
+        }
+
+        async function displayUnicorn(unicorn){
+
+            const unicornName = document.getElementById("unicornName");
+            unicornName.textContent = unicorn.name
+            const info = document.getElementById("unicornInfo");
+            info.textContent = unicorn.id
+            const image = document.getElementById("unicornImage");
+            const unicornImage = document.createElement("src");
+            unicornImage.textContent = unicorn.image
+            
+            
+            
+            
+            console.log("Namn: " + unicorn.name + '\n' +
+                "Detaljer: " + unicorn.description + '\n' +
+                "Rapporterad av: " + unicorn.reportedBy + '\n' +
+                "image: " + unicorn.image)
         }
 
         listUnicorns();
+
     </script>
 
 </body>
